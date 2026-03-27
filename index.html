@@ -240,6 +240,50 @@
           .forEach((el) => observer.observe(el));
       });
     </script>
+    <style>
+      .collab-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #eef3ff, #dbe6ff);
+        color: #0b3d91; /* أزرق غامق */
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-weight: bold;
+        font-size: 14px;
+        box-shadow: 0 4px 15px rgba(11, 61, 145, 0.2);
+        animation:
+          fadeSlide 1s ease forwards,
+          glow 2s infinite alternate;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        cursor: default;
+      }
+
+      .collab-badge:hover {
+        transform: scale(1.08);
+        box-shadow: 0 6px 20px rgba(11, 61, 145, 0.4);
+      }
+
+      @keyframes fadeSlide {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes glow {
+        from {
+          box-shadow: 0 0 10px rgba(11, 61, 145, 0.2);
+        }
+        to {
+          box-shadow: 0 0 20px rgba(11, 61, 145, 0.5);
+        }
+      }
+    </style>
   </head>
   <body
     class="bg-cream dark:bg-background-dark font-display text-navy dark:text-slate-100 transition-colors duration-300"
@@ -258,6 +302,23 @@
               alt="Logo"
               class="h-16 w-auto object-contain bg-transparent"
               src="media/logo.png"
+            />
+
+            <!-- Metallic shine overlay -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden">
+              <div
+                class="absolute top-0 left-[-50%] w-[200%] h-full bg-gradient-to-r from-transparent via-white/30 to-transparent transform rotate-12 scale-x-0 hover:scale-x-100 transition-transform duration-700 ease-in-out"
+              ></div>
+            </div>
+          </div>
+          <!-- LOGO -->
+          <div
+            class="relative flex items-center bg-transparent cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:drop-shadow-xl"
+          >
+            <img
+              alt="nLogo"
+              class="h-16 w-auto object-contain bg-transparent"
+              src="media/norsinlogo.jpeg"
             />
 
             <!-- Metallic shine overlay -->
@@ -306,6 +367,11 @@
           >
           <a
             class="text-cream/80 hover:text-gold text-sm font-semibold transition-colors"
+            href="#norsin"
+            >مركز نورسين</a
+          >
+          <a
+            class="text-cream/80 hover:text-gold text-sm font-semibold transition-colors"
             href="#activate"
             >التسجيل</a
           >
@@ -341,6 +407,8 @@
             <a class="mobile-link" href="#bonuses">البونص</a>
             <a class="mobile-link" href="#reviews">الاراء</a>
             <a class="mobile-link" href="#payments">طرق الدفع</a>
+            <a class="mobile-link" href="#payments">طرق الدفع</a>
+            <a class="mobile-link" href="#norsin">مركز نورسين</a>
             <a class="mobile-link" href="#activate">التسجيل</a>
 
             <a
@@ -395,15 +463,15 @@
 
         <!-- Hero Content -->
         <div
-          class="relative z-10 max-w-7xl mx-auto px-6 lg:px-20 pt-16 sm:pt-24 md:pt-32 lg:pt-40 grid lg:grid-cols-2 gap-12 items-start md:items-center"
+          class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-20 pt-16 sm:pt-24 md:pt-32 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center"
         >
           <div
             id="hero-text"
-            class="opacity-0 translate-y-12 animate-fade-in-mobile"
+            class="opacity-0 translate-y-8 animate-fade-in-mobile space-y-5 text-center lg:text-right"
           >
             <!-- Year Tag -->
             <div
-              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-bold tracking-widest uppercase mb-6"
+              class="inline-flex items-center justify-center lg:justify-start gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-[10px] sm:text-xs font-bold tracking-widest uppercase shadow-sm backdrop-blur-md mx-auto lg:mx-0"
             >
               <span class="relative flex h-2 w-2">
                 <span
@@ -418,48 +486,59 @@
 
             <!-- Main Title -->
             <h1
-              class="text-cream text-5xl sm:text-6xl lg:text-8xl font-black leading-tight tracking-tighter mb-6"
+              class="text-cream text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-[1.2] tracking-tight"
             >
-              كورس <span class="text-gold">كاش</span> كاش
+              كورس <span class="text-gold drop-shadow-sm">كاش</span> كاش
             </h1>
 
             <!-- Subtitle -->
             <p
-              class="text-sage/90 text-lg sm:text-xl lg:text-2xl max-w-2xl leading-relaxed font-medium mb-10 font-bold"
+              class="text-sage/90 text-base sm:text-lg md:text-xl leading-relaxed font-medium max-w-xl mx-auto lg:mx-0"
             >
               المنهجية المتكاملة لمضاعفة مبيعاتك اونلاين
               <br />
               في 30 يوما!
-              <br />
-              <br />
-              <br />
+            </p>
+
+            <!-- Instructor -->
+            <div
+              class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3"
+            >
               <span
-                class="gold-hover text-2xl sm:text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent"
+                class="gold-hover text-2xl sm:text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-500 bg-clip-text text-transparent"
               >
                 فارس الطاهر
               </span>
+
               <img
-                alt="Logo"
-                class="h-44 md:h-44 w-auto object-contain bg-transparent"
+                alt="Signature"
+                class="h-16 sm:h-20 md:h-24 w-auto object-contain opacity-90"
                 src="media/sign.png"
               />
-            </p>
+            </div>
 
-            <!-- Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4">
+            <!-- Collaboration Badge -->
+            <div class="flex justify-center lg:justify-start">
+              <span
+                class="collab-badge text-xs sm:text-sm px-4 py-2 animate-fade-in"
+              >
+                🤝 بالتعاون مع مركز نورسين للتدريب و التطوير
+              </span>
+            </div>
+
+            <!-- Button -->
+            <div class="pt-3 flex justify-center lg:justify-start">
               <a
                 href="https://wa.me/+249994741033"
-                class="bg-gold hover:bg-gold/90 text-navy px-8 py-4 rounded-xl text-base font-black transition-all shadow-xl flex items-center justify-center gap-2 animate-pulse-slow shine-effect"
+                class="group w-full sm:w-auto bg-gold hover:bg-gold/90 text-navy px-6 py-4 rounded-xl text-sm sm:text-base font-black transition-all shadow-lg flex items-center justify-center gap-2"
               >
-                ابدأ الآن
-                <span class="material-symbols-outlined">arrow_back</span>
+                <span>ابدأ الآن</span>
+                <span
+                  class="material-symbols-outlined group-hover:-translate-x-1 transition"
+                >
+                  arrow_back
+                </span>
               </a>
-              <!-- <a
-                href="#curriculum"
-                class="border border-cream/20 hover:bg-cream/5 text-cream px-8 py-4 rounded-xl text-base font-bold transition-all backdrop-blur-sm"
-              >
-                عرض المحتوي
-              </a> -->
             </div>
           </div>
         </div>
@@ -1415,6 +1494,84 @@
                 انضم الينا اليوم عبر واتساب
               </a>
             </button>
+          </div>
+        </div>
+      </section>
+      <!-- OUR PARTNERS -->
+      <section class="relative py-16 sm:py-20 bg-navy text-cream" id="norsin">
+        <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-16">
+          <!-- Title -->
+          <div class="text-center mb-12">
+            <h2
+              class="relative inline-block font-black tracking-widest uppercase text-xl md:text-2xl mb-6 text-white"
+            >
+              شركاؤنا
+              <span
+                class="absolute left-0 top-full w-full h-6 bg-gradient-to-t from-white/30 to-transparent transform scale-y-[-1] opacity-40 pointer-events-none"
+              ></span>
+            </h2>
+            <p class="text-sage/80 text-sm sm:text-base">
+              نفخر بشراكتنا مع جهات رائدة في التدريب والتطوير
+            </p>
+          </div>
+
+          <!-- Partner Card -->
+          <div
+            class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-300"
+          >
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+              <!-- Image -->
+              <div class="overflow-hidden rounded-xl">
+                <img
+                  src="media/center.png"
+                  alt="مركز نورسين"
+                  class="w-full h-64 object-cover rounded-xl hover:scale-105 transition duration-500"
+                />
+              </div>
+
+              <!-- Content -->
+              <div class="space-y-5 text-center md:text-right">
+                <!-- Logo -->
+                <img
+                  src="media/norsinlogo.jpeg"
+                  alt="Logo"
+                  class="h-14 mx-auto md:mx-0"
+                />
+
+                <!-- Name -->
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-gold">
+                  مركز نورسين للتدريب والتطوير
+                </h3>
+
+                <!-- Description -->
+                <p class="text-sage/90 text-sm sm:text-base leading-relaxed">
+                  مركز نورسين هو أحد المراكز الرائدة في مجال التدريب والتطوير،
+                  يقدّم برامج احترافية تهدف إلى تمكين الأفراد والشركات من تحقيق
+                  أقصى إمكانياتهم في سوق العمل من خلال منهجيات حديثة وتجارب
+                  عملية.
+                </p>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-4 pt-4">
+                  <div class="bg-white/5 rounded-xl py-4">
+                    <p class="text-xl sm:text-2xl font-black text-gold">+150</p>
+                    <p class="text-xs text-sage/80">دورة تدريبية</p>
+                  </div>
+
+                  <div class="bg-white/5 rounded-xl py-4">
+                    <p class="text-xl sm:text-2xl font-black text-gold">
+                      +5000
+                    </p>
+                    <p class="text-xs text-sage/80">متدرب</p>
+                  </div>
+
+                  <div class="bg-white/5 rounded-xl py-4">
+                    <p class="text-xl sm:text-2xl font-black text-gold">+10</p>
+                    <p class="text-xs text-sage/80">جوائز</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
