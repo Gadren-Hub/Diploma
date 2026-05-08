@@ -638,7 +638,7 @@
           </div> -->
 
           <div
-            class="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black"
+            class="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black group"
           >
             <!-- Vimeo iframe -->
             <iframe
@@ -650,20 +650,20 @@
               allowfullscreen
             ></iframe>
 
-            <!-- dark overlay -->
+            <!-- overlay -->
             <div class="absolute inset-0 bg-black/30"></div>
 
-            <!-- controls (Play/Pause فقط) -->
+            <!-- Controls container -->
             <div
-              class="absolute bottom-0 left-0 w-full flex justify-end items-center p-4"
+              id="controls"
+              class="absolute bottom-3 right-3 opacity-100 transition duration-300"
             >
-              <!-- Play / Pause -->
               <button
                 id="toggleBtn"
                 onclick="toggleVideo()"
-                class="bg-white text-black px-5 py-2 rounded-full font-bold shadow-lg"
+                class="bg-white/20 backdrop-blur-md text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/30 shadow-lg hover:bg-white/30 transition"
               >
-                ▶ Play
+                ▶
               </button>
             </div>
           </div>
@@ -675,24 +675,60 @@
             const iframe = document.getElementById("vimeoPlayer");
             const player = new Vimeo.Player(iframe);
 
-            const playBtn = document.getElementById("toggleBtn");
+            const btn = document.getElementById("toggleBtn");
+            const controls = document.getElementById("controls");
 
-            // Play / Pause فقط
+            let hideTimeout;
+
+            // Play / Pause
             async function toggleVideo() {
               const paused = await player.getPaused();
 
               if (paused) {
                 await player.play();
-                playBtn.innerHTML = "❚❚ Pause";
               } else {
                 await player.pause();
-                playBtn.innerHTML = "▶ Play";
               }
+
+              showControls(); // إظهار عند التفاعل
             }
 
-            // مزامنة الحالة
-            player.on("play", () => (playBtn.innerHTML = "❚❚ Pause"));
-            player.on("pause", () => (playBtn.innerHTML = "▶ Play"));
+            // تحديث الأيقونة
+            player.on("play", () => (btn.innerHTML = "❚❚"));
+            player.on("pause", () => (btn.innerHTML = "▶"));
+
+            // 🎯 إظهار controls
+            function showControls() {
+              controls.style.opacity = "1";
+
+              clearTimeout(hideTimeout);
+
+              hideTimeout = setTimeout(() => {
+                controls.style.opacity = "0";
+              }, 2500); // 2.5 ثانية
+            }
+
+            // 👆 تفاعل المستخدم (mouse + touch)
+            const container = document.querySelector(".relative");
+
+            container.addEventListener("mousemove", showControls);
+            container.addEventListener("touchstart", showControls);
+
+            // 🎯 Scroll autoplay
+            const observer = new IntersectionObserver(
+              async (entries) => {
+                for (const entry of entries) {
+                  if (entry.isIntersecting) {
+                    await player.play();
+                  } else {
+                    await player.pause();
+                  }
+                }
+              },
+              { threshold: 0.6 },
+            );
+
+            observer.observe(iframe);
           </script>
 
           <br />
