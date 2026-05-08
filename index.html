@@ -650,22 +650,13 @@
               allowfullscreen
             ></iframe>
 
-            <!-- dark overlay خفيف -->
+            <!-- dark overlay -->
             <div class="absolute inset-0 bg-black/30"></div>
 
-            <!-- controls (دائمة أسفل الفيديو) -->
+            <!-- controls (Play/Pause فقط) -->
             <div
-              class="absolute bottom-0 left-0 w-full flex justify-end items-center gap-3 p-4"
+              class="absolute bottom-0 left-0 w-full flex justify-end items-center p-4"
             >
-              <!-- Volume -->
-              <button
-                id="volumeBtn"
-                onclick="toggleMute()"
-                class="bg-white text-black px-4 py-2 rounded-full font-bold shadow-lg"
-              >
-                🔊
-              </button>
-
               <!-- Play / Pause -->
               <button
                 id="toggleBtn"
@@ -676,18 +667,17 @@
               </button>
             </div>
           </div>
+
           <!-- Vimeo API -->
           <script src="https://player.vimeo.com/api/player.js"></script>
+
           <script>
             const iframe = document.getElementById("vimeoPlayer");
             const player = new Vimeo.Player(iframe);
 
             const playBtn = document.getElementById("toggleBtn");
-            const volumeBtn = document.getElementById("volumeBtn");
 
-            let isMuted = true;
-
-            // Play / Pause
+            // Play / Pause فقط
             async function toggleVideo() {
               const paused = await player.getPaused();
 
@@ -697,19 +687,6 @@
               } else {
                 await player.pause();
                 playBtn.innerHTML = "▶ Play";
-              }
-            }
-
-            // Mute / Unmute
-            async function toggleMute() {
-              if (isMuted) {
-                await player.setMuted(false);
-                volumeBtn.innerHTML = "🔊";
-                isMuted = false;
-              } else {
-                await player.setMuted(true);
-                volumeBtn.innerHTML = "🔇";
-                isMuted = true;
               }
             }
 
