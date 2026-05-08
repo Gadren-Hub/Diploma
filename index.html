@@ -638,30 +638,35 @@
           </div> -->
 
           <div
-            class="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black group"
+            id="videoContainer"
+            class="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black"
           >
             <!-- Vimeo iframe -->
             <iframe
               id="vimeoPlayer"
               class="absolute inset-0 w-full h-full"
-              src="https://player.vimeo.com/video/1190375236?controls=0&title=0&byline=0&portrait=0&badge=0&dnt=1"
+              src="https://player.vimeo.com/video/1190375236?controls=0&title=0&byline=0&portrait=0&badge=0&autoplay=1&muted=1&loop=1&dnt=1"
               frameborder="0"
               allow="autoplay; fullscreen"
               allowfullscreen
             ></iframe>
 
             <!-- overlay -->
-            <div class="absolute inset-0 bg-black/30"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
 
-            <!-- Controls container -->
+            <!-- Hint message -->
             <div
-              id="controls"
-              class="absolute bottom-3 right-3 opacity-100 transition duration-300"
+              id="hint"
+              class="absolute inset-0 flex items-center justify-center text-white text-sm bg-black/30"
             >
+              اضغط لتفعيل الصوت ▶
+            </div>
+
+            <!-- Play/Pause button -->
+            <div class="absolute bottom-3 right-3">
               <button
                 id="toggleBtn"
-                onclick="toggleVideo()"
-                class="bg-white/20 backdrop-blur-md text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/30 shadow-lg hover:bg-white/30 transition"
+                class="bg-white/20 backdrop-blur-md text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/30 shadow-lg"
               >
                 ▶
               </button>
@@ -675,12 +680,13 @@
             const iframe = document.getElementById("vimeoPlayer");
             const player = new Vimeo.Player(iframe);
 
+            const container = document.getElementById("videoContainer");
+            const hint = document.getElementById("hint");
             const btn = document.getElementById("toggleBtn");
-            const controls = document.getElementById("controls");
 
-            let hideTimeout;
+            let soundEnabled = false;
 
-            // Play / Pause
+            // 🎯 Play/Pause toggle
             async function toggleVideo() {
               const paused = await player.getPaused();
 
@@ -689,46 +695,29 @@
               } else {
                 await player.pause();
               }
-
-              showControls(); // إظهار عند التفاعل
             }
 
-            // تحديث الأيقونة
+            btn.addEventListener("click", toggleVideo);
+
+            // 🎯 Tap to enable sound (أهم جزء)
+            container.addEventListener("click", async () => {
+              // تشغيل الصوت أول مرة فقط
+              if (!soundEnabled) {
+                await player.setMuted(false);
+                soundEnabled = true;
+                hint.style.display = "none"; // إخفاء الرسالة
+              }
+
+              // تشغيل الفيديو إذا كان متوقف
+              const paused = await player.getPaused();
+              if (paused) {
+                await player.play();
+              }
+            });
+
+            // 🎯 تحديث الأيقونة
             player.on("play", () => (btn.innerHTML = "❚❚"));
             player.on("pause", () => (btn.innerHTML = "▶"));
-
-            // 🎯 إظهار controls
-            function showControls() {
-              controls.style.opacity = "1";
-
-              clearTimeout(hideTimeout);
-
-              hideTimeout = setTimeout(() => {
-                controls.style.opacity = "0";
-              }, 2500); // 2.5 ثانية
-            }
-
-            // 👆 تفاعل المستخدم (mouse + touch)
-            const container = document.querySelector(".relative");
-
-            container.addEventListener("mousemove", showControls);
-            container.addEventListener("touchstart", showControls);
-
-            // 🎯 Scroll autoplay
-            const observer = new IntersectionObserver(
-              async (entries) => {
-                for (const entry of entries) {
-                  if (entry.isIntersecting) {
-                    await player.play();
-                  } else {
-                    await player.pause();
-                  }
-                }
-              },
-              { threshold: 0.6 },
-            );
-
-            observer.observe(iframe);
           </script>
 
           <br />
